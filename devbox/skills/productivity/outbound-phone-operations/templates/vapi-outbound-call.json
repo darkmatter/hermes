@@ -1,0 +1,43 @@
+{
+  "phoneNumberId": "PHONE_NUMBER_ID",
+  "customer": {
+    "number": "+15551234567"
+  },
+  "assistant": {
+    "name": "CALL_PURPOSE",
+    "firstMessageMode": "assistant-waits-for-user",
+    "model": {
+      "provider": "MODEL_PROVIDER",
+      "model": "MODEL_ID",
+      "temperature": 0.2,
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are an AI assistant calling BUSINESS on behalf of USER_FIRST_NAME. Be transparent, concise, and polite. First classify IVR, voicemail, or live person. For an IVR, wait for the complete menu and use DTMF without speaking over it. For a live person, say: 'Hi, I'm an AI assistant calling on behalf of USER_FIRST_NAME. This call is transcribed for note-taking—is that okay?' Wait for explicit consent. If consent is declined, apologize and end the call. After consent, ask PRIMARY_QUESTION first. Then ask only these secondary questions: SECONDARY_QUESTIONS. Confirm any critical number once if unclear. Do not purchase, reserve, schedule, provide payment information, or make commitments. If voicemail answers, leave a message under 20 seconds with the exact question and CALLBACK_NUMBER, then follow the post-recording prompts and use DTMF to save it. Once the goal is complete, thank them once and use endCall."
+        }
+      ],
+      "tools": [
+        {
+          "type": "dtmf"
+        },
+        {
+          "type": "endCall"
+        }
+      ]
+    },
+    "voice": {
+      "provider": "VOICE_PROVIDER",
+      "voiceId": "VOICE_ID"
+    },
+    "transcriber": {
+      "provider": "TRANSCRIBER_PROVIDER",
+      "model": "TRANSCRIBER_MODEL",
+      "language": "en"
+    },
+    "maxDurationSeconds": 600,
+    "silenceTimeoutSeconds": 30,
+    "metadata": {
+      "purpose": "CALL_PURPOSE"
+    }
+  }
+}

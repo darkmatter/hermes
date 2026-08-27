@@ -1,0 +1,97 @@
+{
+  "_comment": "Drop into assistantOverrides.model.tools[]. Set destination number. Pair with system prompt PHASE instructions from skill Mode C warm-transfer section.",
+  "tool": {
+    "type": "transferCall",
+    "function": {
+      "name": "warmTransferToHuman",
+      "description": "Warm-transfer the live airline/business AGENT call to Cooper's human contact ONLY after a real human agent (not IVR/hold music) has answered and started helping. Do NOT call this during automated menus, hold, or before a human greets you. If the human contact does not answer, declines, or voicemail is reached, the transfer is cancelled automatically and YOU remain on the call to finish the task yourself.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "type": "string",
+            "enum": [
+              "+12069542027"
+            ],
+            "description": "Human contact to warm-transfer to once a live agent is on the line."
+          }
+        },
+        "required": [
+          "destination"
+        ]
+      }
+    },
+    "destinations": [
+      {
+        "type": "number",
+        "number": "+12069542027",
+        "description": "Primary human handoff (206). Override this entire tool block if a different number is needed.",
+        "transferPlan": {
+          "mode": "warm-transfer-experimental",
+          "transferAssistant": {
+            "firstMessage": "Hi \u2014 quick warm transfer. I have an American Airlines agent on the other line about passenger Telavaya Reynolds, confirmation W S Z T V R. Are you available to take this call right now?",
+            "firstMessageMode": "assistant-speaks-first",
+            "maxDurationSeconds": 75,
+            "silenceTimeoutSeconds": 25,
+            "model": {
+              "provider": "openai",
+              "model": "gpt-4o",
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "You are a brief warm-transfer assistant dialing Cooper's human contact while an airline/business agent is already on the other leg.\n\nGoals (under ~30 seconds):\n1. Confirm a LIVE HUMAN answered (not voicemail/IVR).\n2. Ask if they can take the airline agent now.\n3. If YES / they sound ready: call transferSuccessful immediately.\n4. If NO, busy, decline, unclear, or VOICEMAIL/answering machine: call transferCancel immediately.\n5. Do not small-talk. Do not leave a long voicemail.\n6. Only one of transferSuccessful or transferCancel \u2014 never both.\n"
+                }
+              ],
+              "tools": [
+                {
+                  "type": "transferSuccessful",
+                  "function": {
+                    "name": "transferSuccessful",
+                    "description": "Human accepted \u2014 merge them with the airline agent and drop AI."
+                  },
+                  "messages": [
+                    {
+                      "type": "request-start",
+                      "content": "Connecting you now."
+                    }
+                  ]
+                },
+                {
+                  "type": "transferCancel",
+                  "function": {
+                    "name": "transferCancel",
+                    "description": "Human unavailable/voicemail/decline \u2014 abort transfer and return to Levi on the airline line."
+                  },
+                  "messages": [
+                    {
+                      "type": "request-complete",
+                      "content": "No problem \u2014 staying with the agent."
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "messages": [
+      {
+        "type": "request-start",
+        "content": "One moment \u2014 connecting a human on our side who may take it from here. Please stay on the line."
+      },
+      {
+        "type": "request-failed",
+        "content": "They're not available right now. I'll continue handling this with you myself.",
+        "endCallAfterSpokenEnabled": false
+      }
+    ]
+  },
+  "defaultHumanNumber": "+12069542027",
+  "promptRules": [
+    "PHASE 1: Levi reaches live human agent alone (IVR/hold). Never transfer during IVR.",
+    "PHASE 2: On human greet \u2192 call warmTransferToHuman once.",
+    "PHASE 3: On transferCancel/fail \u2192 Levi completes GOAL himself; do not hang up; do not retry >1 unless asked.",
+    "request-failed on transfer tool must keep endCallAfterSpokenEnabled=false so fallback works."
+  ]
+}

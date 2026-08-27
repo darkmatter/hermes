@@ -1,0 +1,9 @@
+{
+  "last_report_path": "~/.hermes/logs/curator/20260728-213553",
+  "last_run_at": "2026-07-28T21:35:53.621944+00:00",
+  "last_run_duration_seconds": 999.150223,
+  "last_run_summary": "auto: no changes; llm: # Curator umbrella pass complete\n\nProcessed the 15 agent-created candidates. Most survivors were already class-level single tools (camofox, hermes-agent, financial-operations, qemu, pdf, etc.), so consolidation was concentrated on true sibl…\narchived 4 skill(s):\n  • gog-cli-troubleshooting → gog\n  • ai-phone-calls — pruned (stale)\n  • macos-computer-use — pruned (stale)\n  • weekly-review — pruned (stale)\nfull report: hermes curator status\nkeep an umbrella stable: hermes curator pin gog",
+  "last_run_summary_shown_at": null,
+  "paused": false,
+  "run_count": 8
+}

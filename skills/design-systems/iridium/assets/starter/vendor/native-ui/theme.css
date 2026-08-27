@@ -1,0 +1,179 @@
+/* ----------------------------------------------------------------
+   Iridium shared Tailwind v4 theme tokens.
+   Single source of truth for the terminal palette + shadcn semantic
+   bridge, consumed by apps/web and apps/desktop. Font faces are
+   loaded per-app; these vars only reference family names.
+
+   The semantic bridge and the Tailwind palette aliases below both resolve to
+   the native --n-* ramp, imported here so this file owns that dependency.
+   ---------------------------------------------------------------- */
+
+@import "./native-tokens.css";
+
+@theme {
+  --font-terminal: "Share Tech Mono", "Courier New", monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-tech: "Share Tech Mono", "VT323", monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+  /* Display font — uppercase brand wordmark, section labels, nav labels. */
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  /* Numeric font — applied to every .tabular-nums element across the app. */
+  --font-num:
+    "Source Code Pro Variable", "Source Code Pro", ui-monospace, monospace;
+
+  --color-phosphor: #ffffff;
+  --color-phosphor-dim: #888888;
+  --color-phosphor-bright: #ffffff;
+  --color-phosphor-glow: rgba(255, 255, 255, 0.4);
+  --color-phosphor-muted: rgba(255, 255, 255, 0.08);
+  --color-amber: #ff9500;
+  --color-amber-dim: #aa6400;
+  --color-amber-glow: rgba(255, 149, 0, 0.5);
+  --color-cyan: #a0a0a0;
+  --color-cyan-dim: #707070;
+  --color-magenta: #ff00aa;
+  --color-background: var(--n-bg);
+  --color-surface: var(--n-bg-1);
+  --color-surface-elevated: var(--n-bg-2);
+  --color-foreground: var(--n-fg);
+  --color-foreground-muted: var(--n-mute);
+  --color-border: var(--n-hl);
+  --color-border-subtle: var(--n-hl);
+  --color-border-bright: var(--n-hl-2);
+  --color-positive: var(--n-green);
+  --color-negative: var(--n-red);
+  --color-warning: var(--n-amber);
+
+  /* ----------------------------------------------------------------
+     shadcn semantic token bridge (dark)
+     Maps standard shadcn/ui + @shadcnblocks/@aceternity tokens onto the
+     native ramp (--n-*, defined in components/native/native-theme.css), so
+     registry components share one palette with the native screens instead of
+     rendering on a separate greyscale.
+     ---------------------------------------------------------------- */
+  --color-card: var(--n-bg-2);
+  --color-card-foreground: var(--n-fg);
+  --color-popover: var(--n-bg-2);
+  --color-popover-foreground: var(--n-fg);
+  --color-primary: var(--n-accent);
+  --color-primary-foreground: var(--n-on-accent);
+  --color-secondary: var(--n-bg-3);
+  --color-secondary-foreground: var(--n-fg);
+  --color-muted: var(--n-bg-3);
+  --color-muted-foreground: var(--n-mute);
+  --color-accent: var(--n-bg-3);
+  --color-accent-foreground: var(--n-fg);
+  --color-destructive: var(--n-red);
+  --color-destructive-foreground: var(--n-fg);
+  --color-input: var(--n-bg-4);
+  --color-ring: var(--n-hl-2);
+  /* chart palette for shadcn <ChartContainer> / recharts blocks */
+  --color-chart-1: var(--n-green);
+  --color-chart-2: var(--n-blue);
+  --color-chart-3: var(--n-violet);
+  --color-chart-4: var(--n-amber);
+  --color-chart-5: var(--n-red);
+
+  /* ----------------------------------------------------------------
+     Raw Tailwind palette → native ramp
+
+     ~600 call sites across the app reach for Tailwind's stock palette
+     (`text-zinc-400`, `text-green-400`, `border-zinc-800`) instead of the
+     semantic tokens above. Zinc in particular is a warm neutral, so those
+     utilities actively fight the native cool ramp.
+
+     Re-pointing the families here converts every one of those call sites
+     without editing them, and keeps --n-* as the only palette. Only the shades
+     actually in use are listed. As components migrate to semantic tokens these
+     aliases can be deleted shade by shade.
+     ---------------------------------------------------------------- */
+
+  /* Neutral ramp — dark to light. */
+  --color-zinc-950: var(--n-bg);
+  --color-zinc-900: var(--n-bg-1);
+  --color-zinc-800: var(--n-bg-3);
+  --color-zinc-700: var(--n-bg-4);
+  --color-zinc-600: var(--n-mute-2);
+  --color-zinc-500: var(--n-mute);
+  --color-zinc-400: var(--n-fg-3);
+  --color-zinc-300: var(--n-fg-2);
+  --color-zinc-200: var(--n-fg);
+  /* `neutral` and `gray` are used interchangeably with zinc in a few files. */
+  --color-neutral-950: var(--n-bg);
+  --color-neutral-800: var(--n-bg-3);
+  --color-neutral-400: var(--n-fg-3);
+  --color-gray-800: var(--n-bg-3);
+  --color-gray-600: var(--n-mute-2);
+  --color-gray-500: var(--n-mute);
+  --color-gray-400: var(--n-fg-3);
+  --color-gray-50: var(--n-fg);
+
+  /* Positive — one green, not Tailwind's green plus emerald. */
+  --color-green-300: var(--n-green);
+  --color-green-400: var(--n-green);
+  --color-green-500: var(--n-green-2);
+  --color-green-600: var(--n-green-2);
+  --color-green-800: var(--n-green-bg);
+  --color-green-900: var(--n-green-bg);
+  --color-green-950: var(--n-green-bg);
+  --color-emerald-50: var(--n-green);
+  --color-emerald-400: var(--n-green);
+  --color-emerald-500: var(--n-green-2);
+  --color-emerald-600: var(--n-green-2);
+  --color-emerald-700: var(--n-green-2);
+  --color-emerald-900: var(--n-green-bg);
+
+  /* Negative. The dark shades are error surfaces, so they derive a tinted
+     background from the same hue rather than introducing a new one. */
+  --color-red-50: var(--n-red);
+  --color-red-300: var(--n-red);
+  --color-red-400: var(--n-red);
+  --color-red-500: var(--n-red);
+  --color-red-600: var(--n-red);
+  --color-red-700: color-mix(in oklab, var(--n-red) 40%, transparent);
+  --color-red-800: color-mix(in oklab, var(--n-red) 28%, transparent);
+  --color-red-900: color-mix(in oklab, var(--n-red) 22%, transparent);
+  --color-red-950: color-mix(in oklab, var(--n-red) 16%, transparent);
+
+  /* Warning — amber and yellow collapse onto one token. */
+  --color-amber-50: var(--n-amber);
+  --color-amber-300: var(--n-amber);
+  --color-amber-400: var(--n-amber);
+  --color-amber-500: var(--n-amber);
+  --color-amber-600: var(--n-amber);
+  --color-amber-700: color-mix(in oklab, var(--n-amber) 40%, transparent);
+  --color-amber-900: color-mix(in oklab, var(--n-amber) 22%, transparent);
+  --color-yellow-300: var(--n-amber);
+  --color-yellow-400: var(--n-amber);
+  --color-yellow-500: var(--n-amber);
+  --color-yellow-900: color-mix(in oklab, var(--n-amber) 22%, transparent);
+  --color-yellow-950: color-mix(in oklab, var(--n-amber) 16%, transparent);
+
+  /* Informational. */
+  --color-blue-50: var(--n-blue);
+  --color-blue-300: var(--n-blue);
+  --color-blue-400: var(--n-blue);
+  --color-blue-500: var(--n-blue-2);
+  --color-blue-700: var(--n-blue-2);
+  --color-blue-900: var(--n-blue-bg);
+  --color-sky-300: var(--n-blue);
+  --color-sky-400: var(--n-blue);
+  --color-sky-500: var(--n-blue-2);
+  --color-purple-500: var(--n-violet);
+  --color-cyan-400: var(--n-blue);
+
+  /* Radii. Previously pinned to 0 for the old terminal aesthetic, which both
+     the native design and darkmatter/template disagree with. `sm` and `md` come
+     straight from the native tokens; the rest follow the template's scale off a
+     10px base (--radius: 0.625rem there). */
+  --radius-sm: var(--n-radius); /* 6px */
+  --radius-md: var(--n-radius-card); /* 8px */
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 22px;
+  --radius-4xl: 26px;
+  /* 0 here squared every avatar, status dot and pill. */
+  --radius-full: 9999px;
+}

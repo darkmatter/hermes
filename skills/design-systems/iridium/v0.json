@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "referenceWorkspace": {
+    "sources": [
+      {
+        "id": "github-repo:darkmatter/iridium:main",
+        "type": "github-repo",
+        "repo": {
+          "org": "darkmatter",
+          "name": "iridium"
+        },
+        "ref": "main",
+        "mountPath": "/vercel/share/v0-reference-workspace-sources/darkmatter/iridium/main"
+      }
+    ]
+  },
+  "starter": {
+    "source": "skill-directory",
+    "path": "assets/starter"
+  }
+}

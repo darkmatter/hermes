@@ -1,0 +1,23 @@
+{
+  "_comment": "Generic Vapi outbound skeleton. POST https://api.vapi.ai/call with Bearer <REDACTED> 1Password vapi.credential. Replace customer.number and rewrite assistantOverrides.model.messages[0].content. Remove _comment if API rejects unknown fields. phoneNumberId/assistantId = Cooper standing Twilio Primary + Personal Concierge.",
+  "phoneNumberId": "68092f67-e7eb-4df9-8a39-e930eb99270d",
+  "customer": {
+    "number": "+18005551212"
+  },
+  "assistantId": "86a092df-2332-4092-bf2d-2cd02c66ac4a",
+  "assistantOverrides": {
+    "firstMessageMode": "assistant-waits-for-user",
+    "maxDurationSeconds": 7200,
+    "silenceTimeoutSeconds": 3600,
+    "model": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are Levi, a personal assistant calling on behalf of Cooper Maruyama. Callback: (310) 989-7067 / me@cooperm.com.\n\nGOAL: {{ONE_SENTENCE_GOAL}}\n\nFACTS (only known):\n{{FACTS}}\n\nIVR: listen; use DTMF; 0 / agent if lost.\nHOLD: silent wait through music; do not narrate.\n\nWARM TRANSFER (optional):\n- If a WARM_TRANSFER_NUMBER is set and a LIVE HUMAN greets you (not IVR/hold), briefly introduce the purpose then connect them to that number. Do not transfer during IVR or hold.\n- WARM_TRANSFER_NUMBER: {{WARM_TRANSFER_NUMBER_OR_NONE}}\n\nDO NOT: SSN, full PAN/CVV, invent unknown facts. Unknown → not in front of me; offer refs + callback.\n\nWRAP-UP: capture case # (spell it), amounts, timelines; summarize; goodbye; hang up.\n\nSpeech: natural, concise, polite."
+        }
+      ]
+    }
+  }
+}

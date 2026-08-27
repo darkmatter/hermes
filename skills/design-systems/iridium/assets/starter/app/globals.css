@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@source "../vendor/native-ui";
+@import "tw-animate-css";
+@import "../vendor/native-ui/theme.css";
+
+/* Fonts are loaded via next/font (self-hosted, non-render-blocking) in
+   app/layout.tsx and exposed as --font-* CSS variables on <html>. Re-point the
+   theme's named font tokens at those variables so no remote @import is needed. */
+:root {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), ui-serif, Georgia, serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --font-num: var(--font-source-code-pro), ui-monospace, monospace;
+  --font-terminal: var(--font-geist-mono), ui-monospace, "Courier New", monospace;
+  --font-tech: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Make `dark:` class-based (was prefers-color-scheme). The app is always-dark;
+   `class="dark"` on <html> activates it deterministically for all dark: variants. */
+@custom-variant dark (&:is(.dark *));
+
+/* Numeric font — numbers marked with `tabular-nums` route through --font-num. */
+.tabular-nums {
+  font-family: var(--font-num);
+}
+
+/* Modern surface scope — re-enables subtle rounding for registry blocks. */
+.modern-ui {
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    font-feature-settings: "kern" 1;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

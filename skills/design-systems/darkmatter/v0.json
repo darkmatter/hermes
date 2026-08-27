@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "referenceWorkspace": {
+    "sources": [
+      {
+        "id": "github-repo:darkmatter/web:main",
+        "type": "github-repo",
+        "repo": {
+          "org": "darkmatter",
+          "name": "web"
+        },
+        "ref": "main",
+        "mountPath": "/vercel/share/v0-reference-workspace-sources/darkmatter/web/main"
+      }
+    ]
+  },
+  "starter": {
+    "source": "skill-directory",
+    "path": "assets/starter"
+  }
+}

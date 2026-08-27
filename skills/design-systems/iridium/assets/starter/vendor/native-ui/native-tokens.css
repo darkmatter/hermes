@@ -1,0 +1,111 @@
+/* Native design language — colour ramp and Tailwind theme registration.
+ *
+ * The --n-* values are copied verbatim from the native design source
+ * (vendored at `docs/design/native-playground/app.css`, which matches the live
+ * preview). Neutrals are cool — hue 265 with a little chroma — so surfaces read
+ * as deep blue-black rather than grey; keep them in sync with that file rather
+ * than hand-tuning here.
+ *
+ * This lives in @native/ui because theme.css maps the shadcn semantic tokens
+ * and the Tailwind palette onto this ramp — the shared theme cannot depend on
+ * a token file inside an app package. The n-* helper classes that consume these
+ * variables stay next to the components, in @native/app.
+ */
+
+:root {
+  --n-bg: oklch(0.055 0.01 265); /* main body */
+  --n-chrome: oklch(0.03 0.008 265); /* outer chrome — a shade under the body */
+  --n-bg-1: oklch(0.105 0.011 265); /* one step lifted */
+  --n-bg-2: oklch(0.14 0.012 265); /* card */
+  --n-bg-3: oklch(0.195 0.014 265); /* hover / pressed surface */
+  --n-bg-4: oklch(0.248 0.016 265); /* input bg */
+  --n-hl: oklch(0.75 0.04 265 / 8%); /* hairline */
+  --n-hl-2: oklch(0.78 0.05 265 / 14%); /* stronger hairline */
+
+  --n-fg: oklch(0.985 0.002 265);
+  --n-fg-2: oklch(0.885 0.006 265);
+  --n-fg-3: oklch(0.745 0.01 265);
+  --n-mute: oklch(0.61 0.014 265);
+  --n-mute-2: oklch(0.485 0.016 265);
+
+  --n-blue: oklch(0.68 0.15 258);
+  --n-blue-2: oklch(0.58 0.19 262);
+  --n-blue-bg: oklch(0.32 0.1 262 / 60%);
+
+  --n-green: oklch(0.76 0.15 165);
+  --n-green-2: oklch(0.66 0.17 163);
+  --n-green-bg: oklch(0.32 0.08 163 / 50%);
+
+  --n-amber: oklch(0.82 0.13 85);
+  --n-red: oklch(0.7 0.19 18);
+  --n-violet: oklch(0.73 0.15 298);
+
+  /* Accent is the same colour as --n-green upstream; keep them equal. */
+  --n-accent: oklch(0.76 0.15 165);
+  --n-accent-2: oklch(0.82 0.13 85);
+  --n-on-accent: oklch(0.055 0.01 265);
+
+  /* Translucent white overlays; suffix is the alpha percentage. */
+  --n-lift: oklch(1 0 0);
+  /* Not defined upstream, but referenced by the imported components —
+     interpolated from the 4/5/8 steps. */
+  --n-lift-2: oklch(1 0 0 / 2%);
+  --n-lift-4: oklch(1 0 0 / 4%);
+  --n-lift-5: oklch(1 0 0 / 5%);
+  --n-lift-8: oklch(1 0 0 / 8%);
+
+  --n-radius: 6px;
+  --n-radius-card: 8px;
+}
+
+/* Register the ramp above as Tailwind theme tokens, so the same palette is
+ * reachable as utilities (`bg-n-bg-2`, `text-n-mute`, `border-n-hl`,
+ * `rounded-n-card`) and not just as inline `var(--n-*)`. `inline` keeps the
+ * :root block above as the single source of truth — these entries reference it
+ * rather than copying values.
+ *
+ * This is the vocabulary the native components migrate onto as they move off
+ * inline styles; adding it changes nothing on its own.
+ */
+@theme inline {
+  --color-n-bg: var(--n-bg);
+  --color-n-chrome: var(--n-chrome);
+  --color-n-bg-1: var(--n-bg-1);
+  --color-n-bg-2: var(--n-bg-2);
+  --color-n-bg-3: var(--n-bg-3);
+  --color-n-bg-4: var(--n-bg-4);
+
+  --color-n-hl: var(--n-hl);
+  --color-n-hl-2: var(--n-hl-2);
+
+  --color-n-fg: var(--n-fg);
+  --color-n-fg-2: var(--n-fg-2);
+  --color-n-fg-3: var(--n-fg-3);
+  --color-n-mute: var(--n-mute);
+  --color-n-mute-2: var(--n-mute-2);
+
+  --color-n-blue: var(--n-blue);
+  --color-n-blue-2: var(--n-blue-2);
+  --color-n-blue-bg: var(--n-blue-bg);
+
+  --color-n-green: var(--n-green);
+  --color-n-green-2: var(--n-green-2);
+  --color-n-green-bg: var(--n-green-bg);
+
+  --color-n-amber: var(--n-amber);
+  --color-n-red: var(--n-red);
+  --color-n-violet: var(--n-violet);
+
+  --color-n-accent: var(--n-accent);
+  --color-n-accent-2: var(--n-accent-2);
+  --color-n-on-accent: var(--n-on-accent);
+
+  --color-n-lift: var(--n-lift);
+  --color-n-lift-2: var(--n-lift-2);
+  --color-n-lift-4: var(--n-lift-4);
+  --color-n-lift-5: var(--n-lift-5);
+  --color-n-lift-8: var(--n-lift-8);
+
+  --radius-n: var(--n-radius);
+  --radius-n-card: var(--n-radius-card);
+}

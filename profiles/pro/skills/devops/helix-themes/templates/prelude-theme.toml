@@ -1,0 +1,158 @@
+# Prelude "{name}" for Helix
+# Ported from darkmatter/prelude src/prelude/themes.nix tokens.
+# Semantic roles: accent/accent2/success/warning/info/error + surfaces.
+
+"ui.background" = { fg = "fg", bg = "bg" }
+"ui.background.separator" = { fg = "border" }
+"ui.cursor" = { modifiers = ["reversed"] }
+"ui.cursor.primary" = { modifiers = ["reversed"] }
+"ui.cursor.match" = { fg = "accent2", bg = "search", modifiers = ["bold"] }
+"ui.gutter" = { bg = "gutter" }
+"ui.gutter.selected" = { bg = "cursorline" }
+"ui.linenr" = { fg = "dim", bg = "gutter" }
+"ui.linenr.selected" = { fg = "accent", bg = "cursorline", modifiers = ["bold"] }
+"ui.statusline" = { fg = "fg", bg = "panel" }
+"ui.statusline.inactive" = { fg = "muted", bg = "panel" }
+"ui.statusline.normal" = { fg = "selection_fg", bg = "info", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "selection_fg", bg = "success", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "selection_fg", bg = "accent", modifiers = ["bold"] }
+"ui.bufferline" = { fg = "muted", bg = "panel" }
+"ui.bufferline.background" = { bg = "panel" }
+"ui.bufferline.active" = { fg = "fg", bg = "surface" }
+"ui.popup" = { fg = "fg", bg = "surface" }
+"ui.popup.info" = { fg = "info", bg = "surface" }
+"ui.picker.header" = { fg = "muted", modifiers = ["bold"] }
+"ui.picker.header.column.active" = { fg = "info", modifiers = ["bold"] }
+"ui.help" = { fg = "fg", bg = "surface" }
+"ui.window" = { fg = "border" }
+"ui.menu" = { fg = "fg", bg = "surface" }
+"ui.menu.selected" = { fg = "selection_fg", bg = "accent" }
+"ui.menu.scroll" = { fg = "muted", bg = "panel" }
+"ui.selection" = { bg = "selection" }
+"ui.selection.primary" = { bg = "selection" }
+"ui.cursorline.primary" = { bg = "cursorline" }
+"ui.highlight" = { bg = "search" }
+"ui.highlight.frameline" = { bg = "selection" }
+"ui.text" = { fg = "fg" }
+"ui.text.focus" = { fg = "fg", bg = "surface" }
+"ui.text.inactive" = { fg = "muted", modifiers = ["italic"] }
+"ui.text.info" = { fg = "info" }
+"ui.text.directory" = { fg = "info" }
+"ui.virtual" = { fg = "invisible" }
+"ui.virtual.ruler" = { bg = "cursorline" }
+"ui.virtual.whitespace" = { fg = "invisible" }
+"ui.virtual.indent-guide" = { fg = "invisible" }
+"ui.virtual.inlay-hint" = { fg = "muted" }
+"ui.virtual.inlay-hint.parameter" = { fg = "info" }
+"ui.virtual.inlay-hint.type" = { fg = "accent2" }
+"ui.virtual.wrap" = { fg = "muted" }
+"ui.virtual.jump-label" = { fg = "accent2", modifiers = ["bold"] }
+
+attribute = { fg = "accent2" }
+comment = { fg = "muted", modifiers = ["italic"] }
+"comment.block.documentation" = { fg = "dim", modifiers = ["italic"] }
+"comment.line.documentation" = { fg = "dim", modifiers = ["italic"] }
+constant = { fg = "info" }
+"constant.builtin" = { fg = "info" }
+"constant.character" = { fg = "accent2" }
+"constant.character.escape" = { fg = "warning" }
+"constant.numeric" = { fg = "info" }
+constructor = { fg = "accent2" }
+function = { fg = "accent" }
+"function.builtin" = { fg = "accent" }
+"function.method" = { fg = "accent" }
+"function.macro" = { fg = "accent2" }
+keyword = { fg = "info" }
+"keyword.control" = { fg = "info" }
+"keyword.control.conditional" = { fg = "info" }
+"keyword.control.repeat" = { fg = "info" }
+"keyword.control.import" = { fg = "accent2" }
+"keyword.control.return" = { fg = "info" }
+"keyword.control.exception" = { fg = "error" }
+"keyword.directive" = { fg = "info" }
+"keyword.function" = { fg = "muted" }
+"keyword.operator" = { fg = "accent2" }
+"keyword.storage" = { fg = "muted" }
+"keyword.storage.type" = { fg = "muted" }
+"keyword.storage.modifier" = { fg = "muted" }
+label = { fg = "info" }
+namespace = { fg = "accent2" }
+operator = { fg = "accent2" }
+punctuation = { fg = "dim" }
+"punctuation.bracket" = { fg = "muted" }
+"punctuation.delimiter" = { fg = "dim" }
+"punctuation.special" = { fg = "accent" }
+special = { fg = "accent" }
+string = { fg = "success" }
+"string.regexp" = { fg = "warning", modifiers = ["italic"] }
+"string.special" = { fg = "success" }
+"string.special.url" = { fg = "info", underline = { style = "line" } }
+tag = { fg = "fg" }
+"tag.builtin" = { fg = "info" }
+type = { fg = "accent2" }
+"type.builtin" = { fg = "accent2" }
+"type.enum.variant" = { fg = "info" }
+variable = { fg = "fg" }
+"variable.builtin" = { fg = "warning", modifiers = ["italic"] }
+"variable.other.member" = { fg = "fg" }
+"variable.parameter" = { fg = "muted" }
+
+"markup.heading" = { fg = "accent", modifiers = ["bold"] }
+"markup.heading.marker" = { fg = "muted" }
+"markup.heading.1" = { fg = "accent", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "info", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "accent2", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.text" = { fg = "info", modifiers = ["italic"] }
+"markup.link.url" = { fg = "info", underline = { style = "line" } }
+"markup.link.label" = { fg = "accent2" }
+"markup.list" = { fg = "info", modifiers = ["bold"] }
+"markup.list.checked" = { fg = "success" }
+"markup.list.unchecked" = { fg = "muted" }
+"markup.quote" = { fg = "muted", modifiers = ["italic"] }
+"markup.raw" = { fg = "success" }
+"markup.raw.inline" = { fg = "success" }
+"markup.raw.block" = { fg = "success" }
+
+"diff.plus" = { fg = "success" }
+"diff.plus.gutter" = { fg = "success" }
+"diff.minus" = { fg = "error" }
+"diff.minus.gutter" = { fg = "error" }
+"diff.delta" = { fg = "warning" }
+"diff.delta.gutter" = { fg = "warning" }
+"diff.delta.moved" = { fg = "info" }
+"diff.delta.conflict" = { fg = "error" }
+
+error = { fg = "error" }
+warning = { fg = "warning" }
+info = { fg = "info" }
+hint = { fg = "accent" }
+"diagnostic.error" = { underline = { color = "error", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "warning", style = "curl" } }
+"diagnostic.info" = { underline = { color = "info", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "accent", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+[palette]
+bg = "{bg}"
+gutter = "{gutter}"
+panel = "{panel}"
+surface = "{surface}"
+cursorline = "{cursorline}"
+selection = "{selection}"
+search = "{search}"
+border = "{border}"
+fg = "{fg}"
+muted = "{muted}"
+dim = "{dim}"
+invisible = "{invisible}"
+accent = "{accent}"
+accent2 = "{accent2}"
+success = "{success}"
+warning = "{warning}"
+info = "{info}"
+error = "{error}"
+selection_fg = "{selection_fg}"

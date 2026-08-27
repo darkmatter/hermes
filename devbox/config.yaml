@@ -1,0 +1,129 @@
+model:
+  provider: xai-oauth
+  default: grok-4.6
+browser:
+  cloud_provider: local
+  use_gateway: false
+auxiliary:
+  vision:
+    provider: openrouter
+    model: google/gemini-3.6-flash
+  web_extract:
+    provider: auto
+    model: ''
+display:
+  tool_progress: verbose
+dashboard:
+  theme: cyberpunk
+  font: jetbrains-mono
+  basic_auth:
+    username: cm
+    password: <REDACTED>
+    password_hash: <REDACTED>
+    secret: <REDACTED>
+  public_url: https://hermes.cm.xyz
+moa:
+  presets:
+    default:
+      reference_models:
+      - provider: openai-codex
+        model: gpt-5.5
+      - provider: kimi-coding
+        model: kimi-k3
+      aggregator:
+        provider: custom:litellm.drkmttr.dev
+        model: glm-5.2-fp8
+      fanout: per_iteration
+  reference_models:
+  - provider: openai-codex
+    model: gpt-5.5
+  - provider: kimi-coding
+    model: kimi-k3
+  aggregator:
+    provider: custom:litellm.drkmttr.dev
+    model: glm-5.2-fp8
+  max_tokens: <REDACTED>
+  fanout: per_iteration
+  enabled: true
+approvals:
+  mode: 'off'
+_config_version: 33
+custom_providers:
+- name: Litellm.drkmttr.dev
+  base_url: https://litellm.drkmttr.dev/v1
+  api_key: <REDACTED>
+  model: auto
+  models:
+  - auto
+  - fast
+  - deep
+  - opus
+  - gemini
+  - openrouter-auto
+  - gpt-4o
+  - gpt-oss-120b
+  - openai:gpt-oss-120b
+  - gpt-oss-120b-opencode
+  - glm-5.1-fp8
+  - glm-5.2-fp8
+  - glm-5.2-hermes
+  - glm-5.2-codex
+  - glm-local
+  - claude-3-opus
+  - claude-sonnet-4-20250514
+  - glm-5.2-openrouter
+  - glm-5.2
+  - flash
+platforms:
+  telegram:
+    enabled: true
+  webhook:
+    enabled: true
+  ntfy:
+    enabled: true
+    extra:
+      markdown: true
+kanban:
+  default_assignee: default
+platform_toolsets:
+  cli:
+  - browser
+  - clarify
+  - code_execution
+  - computer_use
+  - cronjob
+  - delegation
+  - file
+  - image_gen
+  - memory
+  - session_search
+  - skills
+  - terminal
+  - todo
+  - tts
+  - vision
+  - web
+known_plugin_toolsets:
+  cli:
+  - spotify
+terminal:
+  cwd: /var/lib/hermes/workspace
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  write_approval: false
+  memory_char_limit: 2200
+  user_char_limit: 1375
+  provider: honcho
+mcp_servers:
+  cua-driver:
+    command: ssh
+    args:
+    - -o
+    - BatchMode=yes
+    - -o
+    - StrictHostKeyChecking=yes
+    - coopermaruyama@coopers-mac-studio
+    - ~/.local/bin/cua-driver
+    - mcp
+    enabled: true

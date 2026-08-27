@@ -1,0 +1,112 @@
+{
+  "_comment": "Outbound call with warm-transfer-experimental handoff. Levi waits for a LIVE human agent, then tries warmTransferToHuman \u2192 +12069542027. If she doesn't pick up / VM / declines, transfer cancels and Levi continues the task on the airline line. POST https://api.vapi.ai/call with private key (1Password vapi credential). Override transfer destination number in tools[0].destinations[0].number + function.parameters.enum. Remove _comment if API rejects unknown fields.",
+  "phoneNumberId": "68092f67-e7eb-4df9-8a39-e930eb99270d",
+  "customer": {
+    "number": "+18004337300"
+  },
+  "assistantId": "86a092df-2332-4092-bf2d-2cd02c66ac4a",
+  "assistantOverrides": {
+    "firstMessageMode": "assistant-waits-for-user",
+    "maxDurationSeconds": 7200,
+    "silenceTimeoutSeconds": 3600,
+    "model": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "tools": [
+        {
+          "type": "transferCall",
+          "function": {
+            "name": "warmTransferToHuman",
+            "description": "Warm-transfer the live airline/business AGENT call to Cooper's human contact ONLY after a real human agent (not IVR/hold music) has answered and started helping. Do NOT call this during automated menus, hold, or before a human greets you. If the human contact does not answer, declines, or voicemail is reached, the transfer is cancelled automatically and YOU remain on the call to finish the task yourself.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "destination": {
+                  "type": "string",
+                  "enum": [
+                    "+12069542027"
+                  ],
+                  "description": "Human contact to warm-transfer to once a live agent is on the line."
+                }
+              },
+              "required": [
+                "destination"
+              ]
+            }
+          },
+          "destinations": [
+            {
+              "type": "number",
+              "number": "+12069542027",
+              "description": "Primary human handoff (206). Override this entire tool block if a different number is needed.",
+              "transferPlan": {
+                "mode": "warm-transfer-experimental",
+                "transferAssistant": {
+                  "firstMessage": "Hi \u2014 quick warm transfer. I have an American Airlines agent on the other line about passenger Telavaya Reynolds, confirmation W S Z T V R. Are you available to take this call right now?",
+                  "firstMessageMode": "assistant-speaks-first",
+                  "maxDurationSeconds": 75,
+                  "silenceTimeoutSeconds": 25,
+                  "model": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are a brief warm-transfer assistant dialing Cooper's human contact while an airline/business agent is already on the other leg.\n\nGoals (under ~30 seconds):\n1. Confirm a LIVE HUMAN answered (not voicemail/IVR).\n2. Ask if they can take the airline agent now.\n3. If YES / they sound ready: call transferSuccessful immediately.\n4. If NO, busy, decline, unclear, or VOICEMAIL/answering machine: call transferCancel immediately.\n5. Do not small-talk. Do not leave a long voicemail.\n6. Only one of transferSuccessful or transferCancel \u2014 never both.\n"
+                      }
+                    ],
+                    "tools": [
+                      {
+                        "type": "transferSuccessful",
+                        "function": {
+                          "name": "transferSuccessful",
+                          "description": "Human accepted \u2014 merge them with the airline agent and drop AI."
+                        },
+                        "messages": [
+                          {
+                            "type": "request-start",
+                            "content": "Connecting you now."
+                          }
+                        ]
+                      },
+                      {
+                        "type": "transferCancel",
+                        "function": {
+                          "name": "transferCancel",
+                          "description": "Human unavailable/voicemail/decline \u2014 abort transfer and return to Levi on the airline line."
+                        },
+                        "messages": [
+                          {
+                            "type": "request-complete",
+                            "content": "No problem \u2014 staying with the agent."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "messages": [
+            {
+              "type": "request-start",
+              "content": "One moment \u2014 connecting a human on our side who may take it from here. Please stay on the line."
+            },
+            {
+              "type": "request-failed",
+              "content": "They're not available right now. I'll continue handling this with you myself.",
+              "endCallAfterSpokenEnabled": false
+            }
+          ]
+        }
+      ],
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are Levi, a personal assistant calling American Airlines reservations on behalf of passenger Telavaya Reynolds. Cooper Maruyama authorized this call and manages the booking. Callback: Cooper Maruyama, (310) 989-7067, me@cooperm.com.\n\nGOAL: CHANGE the LAX\u2192LHR reservation from Thursday July 30, 2026 to a later flight. Prefer Sunday August 2, 2026; if unavailable, Saturday August 1, 2026 (or nearest LAX\u2192LHR nonstop around those dates). Accept a reasonable change fee and/or fare difference and complete the rebooking if the agent can process it now.\n\nBOOKING / PASSENGER:\n- Passenger: Telavaya Reynolds\n- DOB: February 20, 1991\n- AA confirmation: WSZTVR (spell W-S-Z-T-V-R)\n- BA confirmation: BRSK4R (spell B-R-S-K-4-R)\n- Flight: AA 6991 operated by British Airways\n- Current: LAX 5:05 PM Jul 30, 2026 \u2192 LHR 11:35 AM Jul 31, 2026\n\n========================================\nPHASES (STRICT)\n========================================\n\nPHASE 1 \u2014 REACH A HUMAN (stay on this line yourself)\n- Navigating IVR/hold is YOUR job. Listen, use DTMF, wait through hold music SILENTLY.\n- firstMessageMode is assistant-waits-for-user: do not barge into prompts; answer when asked.\n- Do NOT call warmTransferToHuman during IVR, hold music, recordings, or \"please hold\".\n- Do NOT hang up on long holds.\n\nPHASE 2 \u2014 HUMAN AGENT ON THE LINE \u2192 TRY WARM TRANSFER ONCE\n- Trigger ONLY when a real human agent greets you / asks how they can help (not a bot tree).\n- Immediately (before deep negotiation if possible, after a brief intro is OK): call tool warmTransferToHuman with destination +12069542027.\n- Tell the airline agent briefly you are connecting a human authorized on the booking \u2014 ask them to stay on the line.\n- If transfer SUCCEEDS: you will be removed; done.\n- If transfer FAILS / cancels / no answer / voicemail: you are returned to the airline agent. Apologize for the brief hold and CONTINUE PHASE 3 yourself. Do NOT retry the transfer more than once unless the airline agent explicitly asks you to try again later.\n\nPHASE 3 \u2014 COMPLETE THE TASK YOURSELF (fallback \u2014 mandatory if transfer fails)\n- Introduce: Levi, assistant for passenger Telavaya Reynolds, AA conf WSZTVR / BA BRSK4R.\n- Request change to Aug 2 preferred, else Aug 1, same route LAX\u2013LHR, nonstop preferred.\n- Provide DOB 02/20/1991 for verification.\n- Get full quote: change fee, fare diff, taxes, total, form of payment.\n- AUTHORIZED to accept reasonable fee + fare diff and complete rebook on this call if card-on-file works.\n- No full PAN/CVV/SSN/passport. If full card read-back required: say not in front of you; offer callback (310) 989-7067 / me@cooperm.com; ask them to hold quoted itinerary with a time limit; still try to get request noted on PNR.\n- If only passenger can change: extract exact process + get note on booking.\n- Prefer real rebook over cancel+credit unless change impossible.\n\nWRAP-UP (always, any path you finish yourself):\n- New flight #/date/times, new locators, amounts, payment status, case # (spell it), follow-ups.\n- Summarize back, thank, goodbye, hang up cleanly.\n\nDO NOT invent facts. Speech: natural, concise, polite. Spell codes when needed.\n"
+        }
+      ]
+    }
+  }
+}
